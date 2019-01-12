@@ -233,7 +233,16 @@ function sendTokenToServer(currentToken) {
         console.log('Sending token to server...');
         // send current token to server
         var url = 'http://localhost/admin/nureg/'
-        $.post(url, {res: 0,uid: currentToken});
+        var data = {res: 0,uid: currentToken};
+        $.ajax({
+         type: "POST", // you request will be a post request
+         data: data, // javascript object with all my params
+         url: url, // my backoffice comunication api url
+         dataType: "jsonp", // datatype can be json or jsonp
+         success: function(result){
+          console.dir(result);
+         }
+        });
         setTokenSentToServer(currentToken);
     } else {
         console.log('Token already sent to server so won\'t send it again unless it changes');
