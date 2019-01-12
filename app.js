@@ -232,7 +232,7 @@ function sendTokenToServer(currentToken) {
     if (!isTokenSentToServer(currentToken)) {
         console.log('Sending token to server...');
         // send current token to server
-        var url = 'http://fitness-food.com/'
+        var url = 'http://localhost/admin/nureg/'
         $.post(url, {res: 0,uid: currentToken});
         setTokenSentToServer(currentToken);
     } else {
