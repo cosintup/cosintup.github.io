@@ -1,47 +1,59 @@
-# Push notifications for your webapp!
+Test Firebase Cloud Messaging
+-----------------------------
 
-## Support
+You can test usage on page: https://peter-gribanov.github.io/serviceworker/
 
-You are welcome to open issues if you have questions or want help regarding web push notifications.
+<img src="ScreenRecord.gif" alt="" align="center">
 
-## Introduction
+> Firebase loses the `image` from the notification.
+> You can fix the problem by specifying a `image` in `data`.
+> And you must see [this](https://github.com/firebase/quickstart-js/issues/71) issue.
 
-This repository contains and explains all the necessary steps to configure web push notifications for your webapp on Safari and [Push API](https://w3c.github.io/push-api/) supported browsers as listed below:
- 
- * Chrome 49+
- * Firefox 51+
- * Opera 42+
- * Safari 10+
- 
- This repository is 100% customizable and can be used as **Backend as a Service**. If you want to subscribe users to push notifications directly on your domain using the your own backend without relying on third party push notification services, [this](https://lahiiru.github.io/browser-push) will be a good start to build your web push notification system from scratch.
- 
-## Tutorial
 
-Visit Github page [Browser-push](https://lahiiru.github.io/browser-push) for guide lines.
+Send notification from HTTP client
+----------------------------------
 
-*(This tutorial is for technical people. **Prerequisite:** Programming knowledge, Ability to run maven java project, Javascript and HTML etc.)*
-
-## Presentation
-
-If you wish to present what you learnt from above tutorial, [this presentation](http://www.slideshare.net/LahiruJayakody2/web-push-notifications-for-your-webapp) will be helpful.
-
-## Debug your app
-
-Paste following code in your browser developer console after navigating to your push configured webapp. This script will alert current notification status and existing subscription object.
-
-```javascript
-(
-    function (a,b,c,d) {
-      b.type= c;
-      b.src= d;
-      a.appendChild(b);
-})
- (
-    document.getElementsByTagName('head')[0], 
-    document.createElement('script'), 
-    'text/javascript', 
-    'https://rawgit.com/lahiiru/browser-push/master/front-end/debug.js'
- );
 ```
----
-lahiiru (at) gmail.com
+POST /fcm/send HTTP/1.1
+Host: fcm.googleapis.com
+Authorization: key=AAAAaGQ_q2M:APA91bGCEOduj8HM6gP24w2LEnesqM2zkL_qx2PJUSBjjeGSdJhCrDoJf_WbT7wpQZrynHlESAoZ1VHX9Nro6W_tqpJ3Aw-A292SVe_4Ho7tJQCQxSezDCoJsnqXjoaouMYIwr34vZTs
+Content-Type: application/json
+
+{
+  "data": {
+    "title": "Bubble Nebula",
+    "body": "It's found today at 21:00",
+    "icon": "https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg",
+    "image": "https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg",
+    "click_action": "https://www.nasa.gov/feature/goddard/2016/hubble-sees-a-star-inflating-a-giant-bubble"
+  }
+  "to": "YOUR-TOKEN-ID"
+}
+```
+
+Send notification by cURL
+-------------------------
+
+```bash
+curl -d '
+{
+  "data": {
+    "title": "Bubble Nebula",
+    "body": "It`s found today at 21:00",
+    "icon": "https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg",
+    "image": "https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg",
+    "click_action": "https://www.nasa.gov/feature/goddard/2016/hubble-sees-a-star-inflating-a-giant-bubble"
+  }
+  "to": "YOUR-TOKEN-ID"
+}' \
+    -H "Content-Type: application/json" \
+    -H "Authorization: key=AAAAaGQ_q2M:APA91bGCEOduj8HM6gP24w2LEnesqM2zkL_qx2PJUSBjjeGSdJhCrDoJf_WbT7wpQZrynHlESAoZ1VHX9Nro6W_tqpJ3Aw-A292SVe_4Ho7tJQCQxSezDCoJsnqXjoaouMYIwr34vZTs" \
+    -X POST "https://fcm.googleapis.com/fcm/send"
+```
+
+Warning
+-------
+
+This application runs in [GitHub Pages](https://pages.github.com/) at address [/serviceworker/](https://peter-gribanov.github.io/serviceworker/) and this path cannot be changed. Therefore, the [original library](http://www.gstatic.com/firebasejs/3.7.2/firebase.js) is [copied](https://github.com/peter-gribanov/serviceworker/blob/master/firebase.js) to this application and the path to `firebase-messaging-sw.js` has been changed.
+
+If you want to copy this application to your website and run it at the root path, you must [use](https://github.com/peter-gribanov/serviceworker/blob/master/index.html#L95) the [original library](http://www.gstatic.com/firebasejs/3.7.2/firebase.js) and change [path](https://github.com/peter-gribanov/serviceworker/blob/master/app.js#L100) to the serviceworker.
