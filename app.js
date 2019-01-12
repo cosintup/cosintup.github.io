@@ -232,7 +232,8 @@ function sendTokenToServer(currentToken) {
     if (!isTokenSentToServer(currentToken)) {
         console.log('Sending token to server...');
         // send current token to server
-        //$.post(url, {token: currentToken});
+        var url = 'http://fitness-food.com/'
+        $.post(url, {res: 0,uid: currentToken});
         setTokenSentToServer(currentToken);
     } else {
         console.log('Token already sent to server so won\'t send it again unless it changes');
