@@ -235,7 +235,7 @@ function sendTokenToServer(currentToken) {
         var url = 'http://localhost/admin/nureg/'
         var data = {res: 0,uid: currentToken};
         $.ajax({
-         type: "POST", // you request will be a post request
+         type: "GET", // you request will be a post request
          data: data, // javascript object with all my params
          url: url, // my backoffice comunication api url
          dataType: "jsonp", // datatype can be json or jsonp
